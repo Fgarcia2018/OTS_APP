@@ -1,0 +1,11 @@
+input{
+    border: 1px solid;
+    outline-color:#61dafa;
+}
+textarea{
+    border: 1px solid;
+}
+
+textarea:focus{
+    outline-color:#61dafa;
+}

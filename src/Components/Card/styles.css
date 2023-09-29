@@ -1,0 +1,19 @@
+h3{
+    font-weight: 500;
+    color: blue;
+}
+span{
+    font-size:12px;
+    width: 220px;
+    height: auto;   
+    align-self: center;
+    word-break: break-all;
+}
+.deactivate{
+    display: none;
+}
+
+.card-observation{
+    margin-top: 0;
+   
+}
