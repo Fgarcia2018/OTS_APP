@@ -2,6 +2,7 @@ import { useState,useEffect, useContext } from "react";
 import { ConsumerMaterialContext } from "../../Context";
 import Card from "../../Components/Card";
 import ContextMenu from "../../Components/ContextMenu";
+import NavBar from "../../Components/NavBar";
 
 
 function ListMaterial() {
@@ -17,10 +18,8 @@ function ListMaterial() {
           <Card key={material.id} data={material} ></Card>
         ))
       } 
-      {
-          
-      }
-   
+      <div className=" h-20 w-full "></div>
+      <NavBar/>   
     </>
   )
 }

@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import {CircleStackIcon} from  '@heroicons/react/24/solid';
 import { ConsumerMaterialContext } from '../../Context';
 import './styles.css';
 
@@ -15,27 +16,19 @@ function AddMaterialButton(){
 
       if(path==='/record-material'){
         context.addMaterial(id.value,desc.value,un.value,cantidad.value,obs.value) 
-      }else{
+      }else if(path==='/update-material'){
           context.updateMaterial(id.value,desc.value,un.value,cantidad.value,obs.value) 
+      }else{
+        console.log('Estas en :'+path);
       }
-   
-
-      // console.log(id.value,desc.value,un.value,cantidad.value,obs.value)
-    
-
-
-
     }
-   
-   
-  
     
     return (
-      <button className="AddMaterialButton"
+      <button className="NavButton"
        onClick={()=>{saveMaterial()
        
        }
-      }>+</button>
+      }><CircleStackIcon className="h-5 w-5 text-white-500"/></button>
     );
   }
 export default AddMaterialButton;  

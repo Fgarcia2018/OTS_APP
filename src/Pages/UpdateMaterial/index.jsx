@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import FormMaterial from "../../Components/FormMaterial";
 import { ConsumerMaterialContext } from "../../Context";
-import AddMaterialButton from "../../Components/AddMaterialButton";
+import NavBar from "../../Components/NavBar";
 
 function UpdateMaterial() {
   const context=useContext(ConsumerMaterialContext); 
@@ -12,7 +12,7 @@ function UpdateMaterial() {
       </div>        
       <FormMaterial  
        data={context.materialModified} ></FormMaterial>
-      <AddMaterialButton></AddMaterialButton>
+      <NavBar/>
     </>
   )
 }

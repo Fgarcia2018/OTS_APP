@@ -2,7 +2,9 @@ import { useState,useEffect, useContext } from "react";
 import {agregarMaterialEntrada} from '../../utilities';
 import FormMaterial from "../../Components/FormMaterial";
 import { ConsumerMaterialContext } from "../../Context";
-import AddMaterialButton from "../../Components/AddMaterialButton";
+// import AddMaterialButton from "../../Components/AddMaterialButton";
+// import GoMenuButton from "../../Components/GoMenuButton";
+import NavBar from "../../Components/NavBar";
 
 function RecordMaterial() {
   const context=useContext(ConsumerMaterialContext);
@@ -19,7 +21,8 @@ function RecordMaterial() {
       </div>      
       {/* <div className="seccion_materiales">${agregarMaterialEntrada(material)}</div> */}
       <FormMaterial  data={context.material}></FormMaterial>
-      <AddMaterialButton></AddMaterialButton>
+      <NavBar></NavBar>
+     
     </>
   )
 }
