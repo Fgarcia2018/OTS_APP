@@ -1,11 +1,13 @@
 import { BrowserRouter, useRoutes } from 'react-router-dom';
-import { ConsumerMaterialProvider } from '../../Context';
+import { ConsumerMaterialContext, ConsumerMaterialProvider } from '../../Context';
 import Home from '../Home';
 import Login from '../Login';
 import RecordMaterial from '../RecordMaterial';
 import UpdateMaterial from '../UpdateMaterial';
 import NotFound from '../NotFound';
 import ListMaterial from '../ListMaterial';
+import Modal from '../../Modal';
+import { useState } from 'react';
 const AppRoutes=()=>{
   let routes=useRoutes([
     {path:'/',element: <Home/>},
@@ -19,12 +21,13 @@ const AppRoutes=()=>{
 }
 
 function App() {
+  const context=useState(ConsumerMaterialContext)
   return (
     <>
      <ConsumerMaterialProvider>
           <BrowserRouter>
-              <AppRoutes/> 
-          </BrowserRouter>  
+              <AppRoutes/>
+          </BrowserRouter>          
      </ConsumerMaterialProvider>
     </>
   )

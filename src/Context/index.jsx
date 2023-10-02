@@ -3,6 +3,11 @@ export const ConsumerMaterialContext=createContext();
 
 export const ConsumerMaterialProvider=({children})=>{
 
+         // Message - state
+         const[messageMaterial,setMessageMaterial]=useState('');
+
+
+
         // Material -  state  - API 
         const [material,setMaterial]=useState(null);
 
@@ -11,12 +16,26 @@ export const ConsumerMaterialProvider=({children})=>{
         const [materialConsumed,setMaterialConsumed]=useState(materialsConsumed);
         const [materialModified,setMaterialModified]=useState([]);
         
+        // Modal
+        const[openModal,setOpenModal]=useState(false)
+
+        // Modal - Show Modal
+
+        const showModal=(msg)=>{
+            setMessageMaterial(msg)
+            setOpenModal(true)
+            setTimeout(() => {
+                setOpenModal(false)
+            }, 2000);            
+        }
 
         // Materials  - Add 
             const addMaterial=(id,descripcion,unidad,cantidad,observacion)=>{
                 materialsConsumed.push({id,descripcion,unidad,cantidad,observacion})      
                 localStorage.setItem('MaterialesConsumidos',JSON.stringify(materialsConsumed))
                 setMaterialConsumed(materialsConsumed)
+                showModal('Material Almacenado')
+               
             }   
         //Materials - Delete 
 
@@ -30,6 +49,7 @@ export const ConsumerMaterialProvider=({children})=>{
                 materialsConsumed.splice(findId(id),1)
                 localStorage.setItem('MaterialesConsumidos',JSON.stringify(materialsConsumed))
                 setMaterialConsumed(materialsConsumed)
+                showModal('Material Eliminado')
             }
         //Materials -  to Modifu¿y
         const materialToModify=(id)=>{
@@ -37,6 +57,7 @@ export const ConsumerMaterialProvider=({children})=>{
                 return material.id===id
                 })     
                setMaterialModified([filter])
+           
         }
 
         // Material - Update
@@ -50,8 +71,12 @@ export const ConsumerMaterialProvider=({children})=>{
                  
             localStorage.setItem('MaterialesConsumidos',JSON.stringify(materialsConsumed))
             setMaterialConsumed(materialsConsumed)
+            showModal('Material Editado')
         }
 
+
+
+       
         return(
             <ConsumerMaterialContext.Provider value={
                 {
@@ -64,7 +89,12 @@ export const ConsumerMaterialProvider=({children})=>{
                     materialToModify,
                     updateMaterial,
                     materialModified,
-                    setMaterialModified
+                    setMaterialModified,
+                    openModal,
+                    setOpenModal,
+                    messageMaterial,
+                    setMessageMaterial
+
                 }
             }>
                     {children}
