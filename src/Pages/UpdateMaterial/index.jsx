@@ -5,11 +5,13 @@ import Modal from "../../Modal";
 
 import NavBar from "../../Components/NavBar";
 import MsgMaterial from "../../Components/MsgMaterial";
+import Header from "../../Components/Header";
 
 function UpdateMaterial() {
   const context=useContext(ConsumerMaterialContext); 
    return (   
     <>
+      <Header/>
       <div className='bg-cyan-600'>
         Update Material        
       </div>        

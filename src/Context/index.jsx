@@ -1,7 +1,23 @@
-import { createContext,useState } from "react";
+import { createContext,useState,useEffect } from "react";
 export const ConsumerMaterialContext=createContext();
 
 export const ConsumerMaterialProvider=({children})=>{
+        // API
+        const API='http://localhost/inventario_ots';
+
+        // OTS - STATE
+
+        const [ots,setOts]=useState([]);
+
+        // OTS - API
+
+        useEffect(()=>{
+            fetch(API+'/apiot')
+            .then(response=>response.json())
+            .then(data=>setOts(data))
+
+        },[])
+    
 
          // Message - state
          const[messageMaterial,setMessageMaterial]=useState('');
@@ -30,13 +46,32 @@ export const ConsumerMaterialProvider=({children})=>{
         }
 
         // Materials  - Add 
-            const addMaterial=(id,descripcion,unidad,cantidad,observacion)=>{
-                materialsConsumed.push({id,descripcion,unidad,cantidad,observacion})      
+            const addMaterial=(ot,idTrabajador,id,descripcion,unidad,cantidad,observacion)=>{
+                materialsConsumed.push({ot,idTrabajador,id,descripcion,unidad,cantidad,observacion})      
                 localStorage.setItem('MaterialesConsumidos',JSON.stringify(materialsConsumed))
                 setMaterialConsumed(materialsConsumed)
                 showModal('Material Almacenado')
                
-            }   
+            } 
+         //Materials - Add - API
+         const addMaterialApi=async()=>{
+            const response=await fetch(API+'/newmat/setMaterialConsumed',{
+                method:'POST',
+                headers:{
+                                'Content-type':'application/json'
+                            },
+                body:JSON.stringify(materialConsumed)
+        });
+        // if (response.status==200){
+        //     alert(await response.json());                
+        // }
+        materialsConsumed=[]
+        localStorage.setItem('MaterialesConsumidos',JSON.stringify(materialsConsumed))    
+        setMaterialConsumed(materialsConsumed)
+        showModal('Materiales enviados al servidor')
+        return response
+    }
+         
         //Materials - Delete 
 
             const findId=(id)=>{
@@ -61,13 +96,14 @@ export const ConsumerMaterialProvider=({children})=>{
         }
 
         // Material - Update
-        const updateMaterial=(id,descripcion,unidad,cantidad,observacion)=>{
+        const updateMaterial=(ot,idTrabajador,id,descripcion,unidad,cantidad,observacion)=>{
+            materialsConsumed[findId(id)].ot=ot
+            materialsConsumed[findId(id)].idTrabajador=idTrabajador
             materialsConsumed[findId(id)].id=id
             materialsConsumed[findId(id)].descripcion=descripcion   
             materialsConsumed[findId(id)].unidad=unidad
             materialsConsumed[findId(id)].cantidad=cantidad
             materialsConsumed[findId(id)].observacion=observacion  
-         
                  
             localStorage.setItem('MaterialesConsumidos',JSON.stringify(materialsConsumed))
             setMaterialConsumed(materialsConsumed)
@@ -79,7 +115,10 @@ export const ConsumerMaterialProvider=({children})=>{
        
         return(
             <ConsumerMaterialContext.Provider value={
-                {
+                {   
+                    API,
+                    ots,
+                    setOts,
                     material,
                     setMaterial,
                     materialConsumed,
@@ -93,7 +132,8 @@ export const ConsumerMaterialProvider=({children})=>{
                     openModal,
                     setOpenModal,
                     messageMaterial,
-                    setMessageMaterial
+                    setMessageMaterial,
+                    addMaterialApi
 
                 }
             }>

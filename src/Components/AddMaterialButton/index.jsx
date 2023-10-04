@@ -15,11 +15,12 @@ function AddMaterialButton(){
       let obs=document.getElementById("observacionmaterial");
 
       if(path==='/record-material'){
-        context.addMaterial(id.value,desc.value,un.value,cantidad.value,obs.value)         
+        context.addMaterial('OT-CAL-0001-2023','16848773',id.value,desc.value,un.value,cantidad.value,obs.value)         
       }else if(path==='/update-material'){
-          context.updateMaterial(id.value,desc.value,un.value,cantidad.value,obs.value) 
+          context.updateMaterial('OT-CAL-0001-2023','16848773',id.value,desc.value,un.value,cantidad.value,obs.value) 
       }else{
-        console.log('Estas en :'+path);
+        // console.log('Estas en :'+path);
+        context.addMaterialApi()
       }
     }
     

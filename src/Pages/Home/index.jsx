@@ -1,15 +1,16 @@
+import { useContext } from 'react';
+import Header from '../../Components/Header';
 import Menu from '../../Components/Menu';
+import { ConsumerMaterialContext } from '../../Context';
 function Home() {
+    const context=useContext(ConsumerMaterialContext)
+    console.log(context.ots);
     return (
       <>
-      <div className='flex flex-col h-screen'>
-        <div className='flex p-2'>
-          <h3>usuario:</h3>
-          <span>Fernando García</span>
-        </div>
-        <Menu/>
-        </div>  
-       
+        <div className='flex flex-col h-screen'>
+              <Header/>
+              <Menu/>
+          </div>         
       </>
     )
   }
