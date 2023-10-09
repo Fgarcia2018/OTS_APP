@@ -1,28 +1,40 @@
 import { createContext,useState,useEffect } from "react";
 export const ConsumerMaterialContext=createContext();
+import {stringDateCurrent} from '../utilities/index.js'
+
 
 export const ConsumerMaterialProvider=({children})=>{
         // API
         const API='http://localhost/inventario_ots';
 
-        // OTS - STATE
-
-        const [ots,setOts]=useState([]);
-
-        // OTS - API
-
+         // OTS - API     
         useEffect(()=>{
             fetch(API+'/apiot')
-            .then(response=>response.json())
-            .then(data=>setOts(data))
-
+            .then(response=> response.json())    
+             .then(data=>{localStorage.setItem("ots",JSON.stringify(data))})  
         },[])
-    
+            
+        // OTS - STATE
+        let otsToday=JSON.parse(localStorage.getItem("ots"))
+        const [ots,setOts]=useState(otsToday);
 
-         // Message - state
-         const[messageMaterial,setMessageMaterial]=useState('');
+        // OTS - GET OT
+        const getOtToday=()=>{
+        const getOt=ots.find((ot)=>{
+                return ot.idTrabajador===11801144 && ot.fechaOt===stringDateCurrent() 
+            })   
+                if(getOt){                        
+                    return getOt 
+                }else{
+                    return {ot:'No hay OT asignada para hoy',cliente:''}
+                }    
+                        
+            }                      
+        const[numOt,setNumOt]=useState(getOtToday().ot)
+        const[customerOt,setCustomertOt]=useState(getOtToday().cliente) 
 
-
+        // Message - state
+        const[messageMaterial,setMessageMaterial]=useState('');
 
         // Material -  state  - API 
         const [material,setMaterial]=useState(null);
@@ -69,7 +81,7 @@ export const ConsumerMaterialProvider=({children})=>{
         localStorage.setItem('MaterialesConsumidos',JSON.stringify(materialsConsumed))    
         setMaterialConsumed(materialsConsumed)
         showModal('Materiales enviados al servidor')
-        return response
+       
     }
          
         //Materials - Delete 
@@ -109,9 +121,6 @@ export const ConsumerMaterialProvider=({children})=>{
             setMaterialConsumed(materialsConsumed)
             showModal('Material Editado')
         }
-
-
-
        
         return(
             <ConsumerMaterialContext.Provider value={
@@ -119,6 +128,10 @@ export const ConsumerMaterialProvider=({children})=>{
                     API,
                     ots,
                     setOts,
+                    numOt,
+                    setNumOt,
+                    customerOt,
+                    setCustomertOt,
                     material,
                     setMaterial,
                     materialConsumed,
@@ -133,7 +146,7 @@ export const ConsumerMaterialProvider=({children})=>{
                     setOpenModal,
                     messageMaterial,
                     setMessageMaterial,
-                    addMaterialApi
+                    addMaterialApi,                   
 
                 }
             }>

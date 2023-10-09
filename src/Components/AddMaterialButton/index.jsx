@@ -5,6 +5,7 @@ import './styles.css';
 
 function AddMaterialButton(){
   const context=useContext(ConsumerMaterialContext);
+  
    
     const saveMaterial=()=>{
       let path=document.location.pathname
@@ -15,11 +16,10 @@ function AddMaterialButton(){
       let obs=document.getElementById("observacionmaterial");
 
       if(path==='/record-material'){
-        context.addMaterial('OT-CAL-0001-2023','16848773',id.value,desc.value,un.value,cantidad.value,obs.value)         
+        context.addMaterial(context.numOt,'16848773',id.value,desc.value,un.value,cantidad.value,obs.value)         
       }else if(path==='/update-material'){
-          context.updateMaterial('OT-CAL-0001-2023','16848773',id.value,desc.value,un.value,cantidad.value,obs.value) 
-      }else{
-        // console.log('Estas en :'+path);
+          context.updateMaterial(context.numOt,'16848773',id.value,desc.value,un.value,cantidad.value,obs.value) 
+      }else{        
         context.addMaterialApi()
       }
     }
