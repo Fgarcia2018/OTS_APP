@@ -10,8 +10,8 @@ import { useState } from 'react';
 
 const AppRoutes=()=>{
   let routes=useRoutes([
-    {path:'/',element: <Home/>},
-    {path:'/login',element: <Login/>},
+    {path:'/Home',element: <Home/>},
+    {path:'/',element: <Login/>},
     {path:'/record-material',element: <RecordMaterial/>},
     {path:'/update-material',element: <UpdateMaterial/>},
     {path:'/*',element: <NotFound/>},

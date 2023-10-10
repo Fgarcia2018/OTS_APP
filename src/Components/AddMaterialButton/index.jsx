@@ -16,9 +16,9 @@ function AddMaterialButton(){
       let obs=document.getElementById("observacionmaterial");
 
       if(path==='/record-material'){
-        context.addMaterial(context.numOt,'16848773',id.value,desc.value,un.value,cantidad.value,obs.value)         
+        context.addMaterial(context.numOt,context.userName,id.value,desc.value,un.value,cantidad.value,obs.value)         
       }else if(path==='/update-material'){
-          context.updateMaterial(context.numOt,'16848773',id.value,desc.value,un.value,cantidad.value,obs.value) 
+          context.updateMaterial(context.numOt,context.userName,id.value,desc.value,un.value,cantidad.value,obs.value) 
       }else{        
         context.addMaterialApi()
       }

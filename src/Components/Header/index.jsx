@@ -9,7 +9,7 @@ const Header=()=>{
         <div className="bg-teal-600 text-center mb-5 sticky w-full top-0 z-10">
             <div className='flex p-2'>
                 <h3>usuario:</h3>
-                <span>Fernando García</span>
+                <span>{context.employName}</span>
             </div>
             <div className='flex p-2'>
                 <h3> Orden:</h3>

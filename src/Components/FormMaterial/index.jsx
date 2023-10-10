@@ -35,7 +35,7 @@ function FormMaterial(data) {
             <input type="text" name="unidadmaterial" id="unidadmaterial" 
             defaultValue={path==='/update-material'? data.data[0].unidad : ''}disabled  required/>
             <label >Cantidad:</label>
-            <input type="text" name="cantidadmaterial" id="cantidadmaterial"
+            <input type="number" name="cantidadmaterial" id="cantidadmaterial"
             defaultValue={path==='/update-material'? data.data[0].cantidad : ''}  required/>
             <label >Observacion:</label>
             <textarea name="observacionmaterial" id="observacionmaterial" 

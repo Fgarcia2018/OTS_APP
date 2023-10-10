@@ -7,7 +7,7 @@ function Menu() {
         <Link to={'../record-material'}> <button className="menu-button">Registrar Consumos</button></Link>       
         <button className= "menu-button">Consultar Ordenes De Trabajo</button>
         <Link to={'../lista-materiales'}><button className= "menu-button">Lista Materiales</button></Link>
-        <Link to={'../login'}><button className= "menu-button">Salir</button></Link>
+        <Link to={'../'}><button className= "menu-button">Salir</button></Link>
       </div>  
       </>
     )

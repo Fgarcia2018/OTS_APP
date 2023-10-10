@@ -7,7 +7,45 @@ export const ConsumerMaterialProvider=({children})=>{
         // API
         const API='http://localhost/inventario_ots';
 
-         // OTS - API     
+
+        // PERSONAL ENDPOINT
+
+        useEffect(()=>{
+            fetch(API+'/apipersonal')
+            .then(response=> response.json())    
+             .then(data=>{localStorage.setItem("users",JSON.stringify(data))})            
+        },[])
+        let dataUsers=JSON.parse(localStorage.getItem('users'))
+        //USER - STATE
+          const [users,setUsers]=useState(dataUsers)
+          const [userName,setUserName]=useState(JSON.parse(localStorage.getItem('userlog'))[0].usuario)
+          const [employName,setEmployName]=useState(JSON.parse(localStorage.getItem('userlog'))[0].nombre)
+          const [messageLogin,setMessageLogin]=useState('')
+          
+
+        // USER - VALIDATE
+
+        const validateUser=(logUserName,logPass)=>{
+            
+            let filter= users.filter((user)=>{
+                return  user.usuario===logUserName
+                })
+               if (filter.length==1){
+                     if(filter[0].pass===parseInt(logPass)) { 
+                            localStorage.setItem('userlog',JSON.stringify(filter))                          
+                            document.location.href='/Home'  
+                    }else{
+                            // document.location.href='/' 
+                            setMessageLogin('Contraseña Incorrecta')
+               }
+            }else{
+                setMessageLogin('Usuario No Registrado')
+            }
+        } 
+        
+        
+
+         // OTS - ENDPOINT     
         useEffect(()=>{
             fetch(API+'/apiot')
             .then(response=> response.json())    
@@ -21,7 +59,7 @@ export const ConsumerMaterialProvider=({children})=>{
         // OTS - GET OT
         const getOtToday=()=>{
         const getOt=ots.find((ot)=>{
-                return ot.idTrabajador===11801144 && ot.fechaOt===stringDateCurrent() 
+                return ot.idTrabajador==userName && ot.fechaOt===stringDateCurrent() 
             })   
                 if(getOt){                        
                     return getOt 
@@ -126,6 +164,15 @@ export const ConsumerMaterialProvider=({children})=>{
             <ConsumerMaterialContext.Provider value={
                 {   
                     API,
+                    users,
+                    setUsers,
+                    validateUser,
+                    userName,
+                    setUserName,
+                    messageLogin,
+                    setMessageLogin,
+                    employName,
+                    setEmployName,
                     ots,
                     setOts,
                     numOt,
