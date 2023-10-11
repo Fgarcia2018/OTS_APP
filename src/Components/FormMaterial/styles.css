@@ -1,9 +1,11 @@
 input{
     border: 1px solid;
+    border-color: gray;
     outline-color:#61dafa;
 }
 textarea{
     border: 1px solid;
+    border-color: gray;
 }
 
 textarea:focus{

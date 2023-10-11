@@ -17,11 +17,16 @@ function RecordMaterial() {
   return (   
     <>
       <Header/>
-      <div className='bg-cyan-600'>
-        Record Material        
+      <div className='flex justify-center  text-3xl text-cyan-600 mb-5'>
+        Registrar
       </div>      
       {/* <div className="seccion_materiales">${agregarMaterialEntrada(material)}</div> */}
-      <FormMaterial  data={context.material}></FormMaterial>
+
+     <div className="flex justify-center">
+        <div className="flex flex-col h-full justify-center  w-72 " >
+          <FormMaterial  data={context.material}></FormMaterial>
+          </div>
+     </div>
       {context.openModal && (
                   <Modal>
                       <MsgMaterial/>      

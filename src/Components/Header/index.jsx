@@ -6,7 +6,7 @@ const Header=()=>{
 
      return(
         
-        <div className="bg-teal-600 text-center mb-5 sticky w-full top-0 z-10">
+        <div className="bg-cyan-600 text-white text-center mb-5 sticky w-full top-0 z-10">
             <div className='flex p-2'>
                 <h3>usuario:</h3>
                 <span>{context.employName}</span>

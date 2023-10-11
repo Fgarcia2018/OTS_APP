@@ -6,7 +6,6 @@ import './styles.css';
 function AddMaterialButton(){
   const context=useContext(ConsumerMaterialContext);
   
-   
     const saveMaterial=()=>{
       let path=document.location.pathname
       let id=document.getElementById("idmaterial" );

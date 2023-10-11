@@ -12,11 +12,14 @@ function UpdateMaterial() {
    return (   
     <>
       <Header/>
-      <div className='bg-cyan-600'>
-        Update Material        
-      </div>        
-      <FormMaterial  
-       data={context.materialModified} ></FormMaterial>
+      <div className='flex justify-center  text-3xl text-cyan-600 mb-5'>
+        Actualizar
+      </div> 
+      <div className="flex justify-center">
+            <div className="flex flex-col h-full justify-center  w-72 " >      
+                <FormMaterial data={context.materialModified} ></FormMaterial>
+            </div>
+      </div> 
         {context.openModal && (
                   <Modal>
                       <MsgMaterial/>        
@@ -27,4 +30,3 @@ function UpdateMaterial() {
   )
 }
 export default UpdateMaterial
-// val={context.materialModified}

@@ -5,28 +5,26 @@ import {stringDateCurrent} from '../utilities/index.js'
 
 export const ConsumerMaterialProvider=({children})=>{
         // API
-        const API='http://localhost/inventario_ots';
+        const API='https://otherappinventario.000webhostapp.com';
 
 
         // PERSONAL ENDPOINT
-
         useEffect(()=>{
             fetch(API+'/apipersonal')
             .then(response=> response.json())    
              .then(data=>{localStorage.setItem("users",JSON.stringify(data))})            
         },[])
-        let dataUsers=JSON.parse(localStorage.getItem('users'))
+        
         //USER - STATE
-          const [users,setUsers]=useState(dataUsers)
-          const [userName,setUserName]=useState(JSON.parse(localStorage.getItem('userlog'))[0].usuario)
-          const [employName,setEmployName]=useState(JSON.parse(localStorage.getItem('userlog'))[0].nombre)
-          const [messageLogin,setMessageLogin]=useState('')
+        let dataUsers=JSON.parse(localStorage.getItem('users'))
+        const [users,setUsers]=useState(dataUsers)
+        const [userName,setUserName]=useState(JSON.parse(localStorage.getItem('userlog'))[0].usuario)
+        const [employName,setEmployName]=useState(JSON.parse(localStorage.getItem('userlog'))[0].nombre)
+        const [messageLogin,setMessageLogin]=useState('')
           
 
         // USER - VALIDATE
-
         const validateUser=(logUserName,logPass)=>{
-            
             let filter= users.filter((user)=>{
                 return  user.usuario===logUserName
                 })
@@ -34,17 +32,14 @@ export const ConsumerMaterialProvider=({children})=>{
                      if(filter[0].pass===parseInt(logPass)) { 
                             localStorage.setItem('userlog',JSON.stringify(filter))                          
                             document.location.href='/Home'  
-                    }else{
-                            // document.location.href='/' 
+                    }else{                     
                             setMessageLogin('Contraseña Incorrecta')
                }
             }else{
                 setMessageLogin('Usuario No Registrado')
             }
-        } 
+        }        
         
-        
-
          // OTS - ENDPOINT     
         useEffect(()=>{
             fetch(API+'/apiot')
@@ -67,26 +62,26 @@ export const ConsumerMaterialProvider=({children})=>{
                     return {ot:'No hay OT asignada para hoy',cliente:''}
                 }    
                         
-            }                      
+            }       
+        //OTS - NUMOT - STATE    
         const[numOt,setNumOt]=useState(getOtToday().ot)
         const[customerOt,setCustomertOt]=useState(getOtToday().cliente) 
 
-        // Message - state
+        // MESSAGE RECORD MATERIAL
         const[messageMaterial,setMessageMaterial]=useState('');
 
-        // Material -  state  - API 
+        //MATERIAL -  STATE 
         const [material,setMaterial]=useState(null);
 
-        // Materials consumed - state - localstorage
+        // MATERIAL CONSUMED STATE
         let materialsConsumed=JSON.parse(localStorage.getItem('MaterialesConsumidos'))
         const [materialConsumed,setMaterialConsumed]=useState(materialsConsumed);
         const [materialModified,setMaterialModified]=useState([]);
         
-        // Modal
+        // MODAL
         const[openModal,setOpenModal]=useState(false)
 
-        // Modal - Show Modal
-
+        // MODAL - SHOW MODAL
         const showModal=(msg)=>{
             setMessageMaterial(msg)
             setOpenModal(true)
@@ -95,7 +90,7 @@ export const ConsumerMaterialProvider=({children})=>{
             }, 2000);            
         }
 
-        // Materials  - Add 
+        // MATERIALS CONSUMED ADD
             const addMaterial=(ot,idTrabajador,id,descripcion,unidad,cantidad,observacion)=>{
                 materialsConsumed.push({ot,idTrabajador,id,descripcion,unidad,cantidad,observacion})      
                 localStorage.setItem('MaterialesConsumidos',JSON.stringify(materialsConsumed))
@@ -103,27 +98,26 @@ export const ConsumerMaterialProvider=({children})=>{
                 showModal('Material Almacenado')
                
             } 
-         //Materials - Add - API
+         //MATERIALS ADD ENDPOINT
          const addMaterialApi=async()=>{
-            const response=await fetch(API+'/newmat/setMaterialConsumed',{
+                await fetch(API+'/newmat/setcons',{
                 method:'POST',
-                headers:{
-                                'Content-type':'application/json'
-                            },
+                mode:'cors',
+                credentials:'same-origin',
+
+                // El envío de cabeceras, genera error al comunicarse con servidor 000webhost.com
+                // headers:{
+                //                 'Content-type':'application/json'
+                //             },
                 body:JSON.stringify(materialConsumed)
         });
-        // if (response.status==200){
-        //     alert(await response.json());                
-        // }
         materialsConsumed=[]
         localStorage.setItem('MaterialesConsumidos',JSON.stringify(materialsConsumed))    
         setMaterialConsumed(materialsConsumed)
         showModal('Materiales enviados al servidor')
-       
-    }
+        }
          
-        //Materials - Delete 
-
+        //MATERIALS CONSUMED DELETE
             const findId=(id)=>{
                 let filter= materialsConsumed.find((material)=>{
                     return  material.id===id
@@ -136,16 +130,15 @@ export const ConsumerMaterialProvider=({children})=>{
                 setMaterialConsumed(materialsConsumed)
                 showModal('Material Eliminado')
             }
-        //Materials -  to Modifu¿y
+        //MATERIALS TO MODIFY
         const materialToModify=(id)=>{
            let filter= materialsConsumed.find((material)=>{
                 return material.id===id
                 })     
                setMaterialModified([filter])
-           
         }
 
-        // Material - Update
+        //MATERIAL UPDATE
         const updateMaterial=(ot,idTrabajador,id,descripcion,unidad,cantidad,observacion)=>{
             materialsConsumed[findId(id)].ot=ot
             materialsConsumed[findId(id)].idTrabajador=idTrabajador
@@ -153,11 +146,10 @@ export const ConsumerMaterialProvider=({children})=>{
             materialsConsumed[findId(id)].descripcion=descripcion   
             materialsConsumed[findId(id)].unidad=unidad
             materialsConsumed[findId(id)].cantidad=cantidad
-            materialsConsumed[findId(id)].observacion=observacion  
-                 
+            materialsConsumed[findId(id)].observacion=observacion                  
             localStorage.setItem('MaterialesConsumidos',JSON.stringify(materialsConsumed))
             setMaterialConsumed(materialsConsumed)
-            showModal('Material Editado')
+            showModal('Material Actualizado')
         }
        
         return(
@@ -193,8 +185,7 @@ export const ConsumerMaterialProvider=({children})=>{
                     setOpenModal,
                     messageMaterial,
                     setMessageMaterial,
-                    addMaterialApi,                   
-
+                    addMaterialApi,
                 }
             }>
                     {children}

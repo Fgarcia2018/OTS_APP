@@ -1,16 +1,21 @@
 h3{
     font-weight: 500;
-    color: blue;
+    color: white
 }
 span{
     font-size:12px;
-    width: 220px;
+    width: 250px;
     height: auto;   
     align-self: center;
     word-break: break-all;
 }
 .deactivate{
     display: none;
+}
+
+.label-card{
+    font-weight: 600;
+    color: rgb(8 145 178);
 }
 
 .card-observation{
