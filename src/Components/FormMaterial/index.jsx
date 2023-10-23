@@ -15,7 +15,7 @@ function FormMaterial(data) {
     let path=document.location.pathname
   return (          
 
-        <form action="" className='flex flex-col'>
+        <form action="" className='flex flex-col text-lg'>
         <label >Codigo:</label>
         <datalist id="list_material" name="list_material"  >
                {

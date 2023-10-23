@@ -8,13 +8,11 @@ import { useContext,useState } from 'react';
 function Card({data}) {
   const context=useContext(ConsumerMaterialContext)
   const [contextMenu,setContextMenu]=useState(false) 
-   
   const [materialSelected,setMaterialSelected]=useState('')  
   
   const renderMenu=(id)=>{ 
     const isMaterialSelected=context.materialConsumed.filter(material=>material.id===id).length==1
-    if (isMaterialSelected){
-      console.log(id)
+    if (isMaterialSelected){ 
       if (contextMenu) return (<ContextMenu id={id}/>)
      }
     }     
@@ -44,9 +42,7 @@ function Card({data}) {
 
         {
           renderMenu(materialSelected)
-        }      
-       
-         
+        }   
         </div>
         
       </>

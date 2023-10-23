@@ -8,14 +8,15 @@ import NotFound from '../NotFound';
 import ListMaterial from '../ListMaterial';
 import { useState } from 'react';
 
-const AppRoutes=()=>{
+export const AppRoutes=()=>{
   let routes=useRoutes([
-    {path:'/Home',element: <Home/>},
+    {path:'/Home', element: <Home/>},   
     {path:'/',element: <Login/>},
+    {path:'/OTS_APP/',element: <Login/>},
     {path:'/record-material',element: <RecordMaterial/>},
     {path:'/update-material',element: <UpdateMaterial/>},
-    {path:'/*',element: <NotFound/>},
     {path:'/lista-materiales',element: <ListMaterial/>},
+    {path:'/*',element: <NotFound/>},
   ])
   return routes;
 }

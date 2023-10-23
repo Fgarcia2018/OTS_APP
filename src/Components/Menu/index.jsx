@@ -7,7 +7,7 @@ function Menu() {
       <div className="flex flex-col justify-center items-center h-screen">
         <Link to={'../record-material'}>
          <button className="menu-button">
-             <PencilSquareIcon className='text-white h-7 w-7'/>Registrar Consumos 
+             <PencilSquareIcon />Registrar Consumos 
          </button>
          </Link>        
         {/* <button className= "menu-button">Consultar Ordenes De Trabajo</button> */}

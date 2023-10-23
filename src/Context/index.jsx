@@ -2,11 +2,26 @@ import { createContext,useState,useEffect } from "react";
 export const ConsumerMaterialContext=createContext();
 import {stringDateCurrent} from '../utilities/index.js'
 
-
 export const ConsumerMaterialProvider=({children})=>{
+     
         // API
         const API='https://otherappinventario.000webhostapp.com';
 
+          // OTS - STATE    
+        const [ots,setOts]=useState([]);
+
+         // OTS - ENDPOINT     
+         useEffect(()=>{
+            fetch(API+'/apiot')
+            .then(response=> response.json()) 
+            .then(data=>setOts(data))             
+            localStorage.setItem("MaterialesConsumidos","[]")
+        },[])
+
+         //OTS - NUMOT - STATE    
+         const[numOt,setNumOt]=useState('')
+         const[customerOt,setCustomerOt]=useState('') 
+        
 
         // PERSONAL ENDPOINT
         useEffect(()=>{
@@ -17,55 +32,50 @@ export const ConsumerMaterialProvider=({children})=>{
         
         //USER - STATE
         let dataUsers=JSON.parse(localStorage.getItem('users'))
-        const [users,setUsers]=useState(dataUsers)
-        const [userName,setUserName]=useState(JSON.parse(localStorage.getItem('userlog'))[0].usuario)
-        const [employName,setEmployName]=useState(JSON.parse(localStorage.getItem('userlog'))[0].nombre)
+    
+        const [users,setUsers]=useState(dataUsers)      
+        const [userName,setUserName]=useState('')
+        const [employName,setEmployName]=useState('')      
+   
+                
         const [messageLogin,setMessageLogin]=useState('')
-          
 
         // USER - VALIDATE
         const validateUser=(logUserName,logPass)=>{
+            localStorage.setItem("userlog",'[{"usuario":"","nombre":""}]')  
             let filter= users.filter((user)=>{
                 return  user.usuario===logUserName
                 })
                if (filter.length==1){
-                     if(filter[0].pass===parseInt(logPass)) { 
-                            localStorage.setItem('userlog',JSON.stringify(filter))                          
-                            document.location.href='/Home'  
+                     if(filter[0].pass===parseInt(logPass)) {                           
+                            localStorage.setItem('userlog',JSON.stringify(filter)) 
+                            let logUser=JSON.parse(localStorage.getItem('userlog'))[0].usuario                              
+                            setUserName(logUser)                           
+                            setEmployName(JSON.parse(localStorage.getItem('userlog'))[0].nombre)
+                            setNumOt(getOtToday(logUser).ot)
+                            setCustomerOt(getOtToday(logUser).cliente)  
+                            return true
                     }else{                     
                             setMessageLogin('Contraseña Incorrecta')
                }
             }else{
                 setMessageLogin('Usuario No Registrado')
             }
-        }        
-        
-         // OTS - ENDPOINT     
-        useEffect(()=>{
-            fetch(API+'/apiot')
-            .then(response=> response.json())    
-             .then(data=>{localStorage.setItem("ots",JSON.stringify(data))})  
-        },[])
-            
-        // OTS - STATE
-        let otsToday=JSON.parse(localStorage.getItem("ots"))
-        const [ots,setOts]=useState(otsToday);
+        } 
 
         // OTS - GET OT
-        const getOtToday=()=>{
+        const getOtToday=(user)=>{
         const getOt=ots.find((ot)=>{
-                return ot.idTrabajador==userName && ot.fechaOt===stringDateCurrent() 
-            })   
-                if(getOt){                        
-                    return getOt 
+                return ot.idTrabajador==user && ot.fechaOt===stringDateCurrent() 
+            })               
+                if(getOt){   
+                    console.log(getOt);                     
+                    return getOt                  
                 }else{
-                    return {ot:'No hay OT asignada para hoy',cliente:''}
+                    return {ot:'SIN ASIGNAR',cliente:'SIN ASIGNAR'}
                 }    
                         
-            }       
-        //OTS - NUMOT - STATE    
-        const[numOt,setNumOt]=useState(getOtToday().ot)
-        const[customerOt,setCustomertOt]=useState(getOtToday().cliente) 
+            }   
 
         // MESSAGE RECORD MATERIAL
         const[messageMaterial,setMessageMaterial]=useState('');
@@ -166,11 +176,11 @@ export const ConsumerMaterialProvider=({children})=>{
                     employName,
                     setEmployName,
                     ots,
-                    setOts,
+                    setOts,                               
                     numOt,
                     setNumOt,
                     customerOt,
-                    setCustomertOt,
+                    setCustomerOt,
                     material,
                     setMaterial,
                     materialConsumed,
@@ -186,6 +196,7 @@ export const ConsumerMaterialProvider=({children})=>{
                     messageMaterial,
                     setMessageMaterial,
                     addMaterialApi,
+                    getOtToday
                 }
             }>
                     {children}

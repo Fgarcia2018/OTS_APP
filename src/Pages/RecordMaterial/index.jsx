@@ -1,4 +1,4 @@
-import { useState,useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import FormMaterial from "../../Components/FormMaterial";
 import { ConsumerMaterialContext } from "../../Context";
 import Modal from "../../Modal";
@@ -19,11 +19,10 @@ function RecordMaterial() {
       <Header/>
       <div className='flex justify-center  text-3xl text-cyan-600 mb-5'>
         Registrar
-      </div>      
-      {/* <div className="seccion_materiales">${agregarMaterialEntrada(material)}</div> */}
+      </div>    
 
      <div className="flex justify-center">
-        <div className="flex flex-col h-full justify-center  w-72 " >
+        <div className="flex flex-col h-full justify-center  w-5/6 " >
           <FormMaterial  data={context.material}></FormMaterial>
           </div>
      </div>

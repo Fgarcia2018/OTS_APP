@@ -28,7 +28,7 @@ function AddMaterialButton(){
        onClick={()=>{saveMaterial()
        
        }
-      }><CircleStackIcon className="h-5 w-5 text-white-500"/></button>
+      }><CircleStackIcon className="h-7 w-7 text-white-500"/></button>
     );
   }
 export default AddMaterialButton;  
