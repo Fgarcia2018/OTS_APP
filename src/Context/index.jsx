@@ -21,6 +21,10 @@ export const ConsumerMaterialProvider=({children})=>{
          //OTS - NUMOT - STATE    
          const[numOt,setNumOt]=useState('')
          const[customerOt,setCustomerOt]=useState('') 
+
+        // COORD - STATE
+        const[coords,setCoords]=useState('')
+         
         
 
         // PERSONAL ENDPOINT
@@ -64,12 +68,13 @@ export const ConsumerMaterialProvider=({children})=>{
         } 
 
         // OTS - GET OT
-        const getOtToday=(user)=>{
-        const getOt=ots.find((ot)=>{
-                return ot.idTrabajador==user && ot.fechaOt===stringDateCurrent() 
-            })               
-                if(getOt){   
-                    console.log(getOt);                     
+        const getOtToday=(user)=>{                  
+           
+        const getOt=ots.find((ot)=>{ 
+            console.log(ots);              
+                return ot.idTrabajador===Number(user) && ot.fechaOt===stringDateCurrent()
+            })   
+                if(getOt){                                     
                     return getOt                  
                 }else{
                     return {ot:'SIN ASIGNAR',cliente:'SIN ASIGNAR'}
@@ -101,8 +106,8 @@ export const ConsumerMaterialProvider=({children})=>{
         }
 
         // MATERIALS CONSUMED ADD
-            const addMaterial=(ot,idTrabajador,id,descripcion,unidad,cantidad,observacion)=>{
-                materialsConsumed.push({ot,idTrabajador,id,descripcion,unidad,cantidad,observacion})      
+            const addMaterial=(ot,idTrabajador,id,descripcion,unidad,cantidad,observacion,coords)=>{
+                materialsConsumed.push({ot,idTrabajador,id,descripcion,unidad,cantidad,observacion,coords})      
                 localStorage.setItem('MaterialesConsumidos',JSON.stringify(materialsConsumed))
                 setMaterialConsumed(materialsConsumed)
                 showModal('Material Almacenado')
@@ -149,18 +154,53 @@ export const ConsumerMaterialProvider=({children})=>{
         }
 
         //MATERIAL UPDATE
-        const updateMaterial=(ot,idTrabajador,id,descripcion,unidad,cantidad,observacion)=>{
+        const updateMaterial=(ot,idTrabajador,id,descripcion,unidad,cantidad,observacion,coords)=>{
             materialsConsumed[findId(id)].ot=ot
             materialsConsumed[findId(id)].idTrabajador=idTrabajador
             materialsConsumed[findId(id)].id=id
             materialsConsumed[findId(id)].descripcion=descripcion   
             materialsConsumed[findId(id)].unidad=unidad
             materialsConsumed[findId(id)].cantidad=cantidad
-            materialsConsumed[findId(id)].observacion=observacion                  
+            materialsConsumed[findId(id)].observacion=observacion    
+            materialsConsumed[findId(id)].coords=coords               
             localStorage.setItem('MaterialesConsumidos',JSON.stringify(materialsConsumed))
             setMaterialConsumed(materialsConsumed)
             showModal('Material Actualizado')
         }
+
+
+        const getLocation=()=>{
+            
+        // GET GEOLACATION OF DEVICE
+         
+      
+        const sucess=(position)=>{            
+        setCoords(`${position.coords.latitude},${position.coords.longitude}`)
+        
+               }
+        const error=(err)=>{
+            return err.message;
+        }
+        let opciones={
+            // Exactitud
+            EnabledHighAccuracy:true,
+            // tiempo de espera en milisegundos
+            timestamp:500,
+            // Tiempo de recuperacion de la posicion (0 la más actual)
+            MaximuAge:0
+        }
+
+        if(navigator.geolocation){
+             navigator.geolocation.getCurrentPosition(sucess,error,opciones)
+            }else{
+    
+                alert('No se puede obtener la Geolocalización')
+    
+            }
+            
+     
+        }
+     
        
         return(
             <ConsumerMaterialContext.Provider value={
@@ -196,7 +236,9 @@ export const ConsumerMaterialProvider=({children})=>{
                     messageMaterial,
                     setMessageMaterial,
                     addMaterialApi,
-                    getOtToday
+                    getOtToday,
+                    getLocation,
+                    coords
                 }
             }>
                     {children}

@@ -10,6 +10,7 @@ import { useState } from 'react';
 
 export const AppRoutes=()=>{
   let routes=useRoutes([
+
     {path:'/Home', element: <Home/>},   
     {path:'/',element: <Login/>},
     {path:'/OTS_APP/',element: <Login/>},

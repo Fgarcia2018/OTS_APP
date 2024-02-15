@@ -13,22 +13,26 @@ function AddMaterialButton(){
       let un=document.getElementById("unidadmaterial");
       let cantidad=document.getElementById("cantidadmaterial" );
       let obs=document.getElementById("observacionmaterial");
-
+      context.getLocation()
       if(path==='/record-material'){
-        context.addMaterial(context.numOt,context.userName,id.value,desc.value,un.value,cantidad.value,obs.value)         
+        context.addMaterial(context.numOt,context.userName,id.value,desc.value,un.value,cantidad.value,obs.value,context.coords)         
       }else if(path==='/update-material'){
-          context.updateMaterial(context.numOt,context.userName,id.value,desc.value,un.value,cantidad.value,obs.value) 
+          context.updateMaterial(context.numOt,context.userName,id.value,desc.value,un.value,cantidad.value,obs.value,context.coords) 
       }else{        
         context.addMaterialApi()
       }
+   
+      
     }
     
     return (
       <button className="NavButton"
-       onClick={()=>{saveMaterial()
-       
+       onClick={()=>{
+        saveMaterial()       
        }
-      }><CircleStackIcon className="h-7 w-7 text-white-500"/></button>
+      }><CircleStackIcon className="h-7 w-7 text-white-500" /> </button>
     );
   }
+
+ 
 export default AddMaterialButton;  
